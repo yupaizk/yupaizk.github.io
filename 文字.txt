@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>甜甜圈配對 × Mister Donut</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+:root{--pink:#FF4E8A;--pink-light:#FFB3CE;--pink-pale:#FFF0F5;--cream:#FFF8F0;--green:#2ECC71;--text:#2D1B0E;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;background:rgba(255,255,255,.93);backdrop-filter:blur(12px);border-bottom:2px solid var(–pink-light);display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:64px;}
+.nav-logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.1rem;color:var(–pink);}
+.nav-logo span{font-size:1.6rem;}
+.nav-links{display:flex;gap:24px;list-style:none;}
+.nav-links a{text-decoration:none;color:var(–text);font-size:.85rem;font-weight:500;transition:color .2s;}
+.nav-links a:hover{color:var(–pink);}
+.nav-cta{background:var(–pink);color:#fff;border:none;border-radius:50px;padding:10px 22px;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(255,78,138,.4);}
+
+/* HERO */
+#hero{min-height:100vh;padding-top:64px;background:linear-gradient(135deg,#FFF0F5 0%,#FFE4EF 50%,#FFF8E7 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.hcircle{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(255,78,138,.12),transparent 70%);animation:floatY 6s ease-in-out infinite;}
+.hc1{width:600px;height:600px;top:-200px;right:-100px;}
+.hc2{width:400px;height:400px;bottom:-150px;left:-100px;animation-delay:-3s;}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1100px;width:90%;margin:0 auto;position:relative;z-index:2;}
+.hero-tag{display:inline-block;background:var(–pink);color:#fff;font-size:.75rem;font-weight:700;letter-spacing:2px;padding:6px 16px;border-radius:50px;margin-bottom:20px;}
+.hero-h1{font-size:clamp(2rem,4vw,3.4rem);font-weight:900;line-height:1.25;margin-bottom:16px;}
+.hero-h1 em{color:var(–pink);font-style:normal;}
+.hero-sub{font-size:1rem;color:#7A5C4A;margin-bottom:36px;line-height:1.8;}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
+.btn-primary{background:linear-gradient(135deg,#FF4E8A,#FF8CB4);color:#fff;border:none;border-radius:50px;padding:16px 36px;font-size:1rem;font-weight:700;cursor:pointer;transition:all .3s;box-shadow:0 8px 24px rgba(255,78,138,.35);display:inline-flex;align-items:center;gap:8px;}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(255,78,138,.5);}
+.btn-outline{background:transparent;color:var(–pink);border:2px solid var(–pink);border-radius:50px;padding:14px 28px;font-size:1rem;font-weight:700;cursor:pointer;transition:all .3s;}
+.btn-outline:hover{background:var(–pink);color:#fff;}
+.btn-white{background:#fff;color:var(–pink);border:none;border-radius:50px;padding:18px 48px;font-size:1.05rem;font-weight:900;cursor:pointer;transition:all .3s;box-shadow:0 8px 24px rgba(0,0,0,.15);display:inline-flex;align-items:center;gap:10px;}
+.btn-white:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.25);}
+
+/* CARD STACK */
+.card-stack{position:relative;width:300px;height:410px;margin:0 auto;}
+.tinder-card{position:absolute;width:100%;border-radius:24px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.15);background:#fff;}
+.tinder-card:nth-child(3){transform:rotate(-6deg) translate(-28px,18px);z-index:1;}
+.tinder-card:nth-child(2){transform:rotate(3deg) translate(14px,10px);z-index:2;}
+.tinder-card:nth-child(1){transform:rotate(-1deg);z-index:3;animation:cardFloat 3s ease-in-out infinite;}
+@keyframes cardFloat{0%,100%{transform:rotate(-1deg) translateY(0)}50%{transform:rotate(-1deg) translateY(-8px)}}
+.card-donut-img{width:100%;height:210px;display:flex;align-items:center;justify-content:center;font-size:7rem;background:linear-gradient(135deg,#FFE4EF,#FFF8E7);}
+.card-info{padding:16px 18px 12px;}
+.card-info h3{font-size:1.1rem;font-weight:900;margin-bottom:4px;}
+.card-info p{font-size:.78rem;color:#7A5C4A;line-height:1.6;}
+.card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.card-tag{background:var(–pink-pale);color:var(–pink);font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:50px;}
+.card-actions{display:flex;justify-content:center;gap:20px;padding:10px 18px 16px;}
+.card-btn{width:48px;height:48px;border-radius:50%;border:2px solid;display:flex;align-items:center;justify-content:center;font-size:1.3rem;cursor:pointer;transition:all .2s;background:#fff;}
+.card-btn.nope{border-color:#FF4E4E;color:#FF4E4E;}
+.card-btn.nope:hover{background:#FF4E4E;color:#fff;}
+.card-btn.like{border-color:var(–green);color:var(–green);}
+.card-btn.like:hover{background:var(–green);color:#fff;}
+
+/* SECTION */
+.section-title{text-align:center;font-size:clamp(1.5rem,3vw,2.3rem);font-weight:900;margin-bottom:12px;}
+.section-title em{color:var(–pink);font-style:normal;}
+.section-sub{text-align:center;color:#7A5C4A;margin-bottom:56px;font-size:.95rem;}
+
+/* HOW */
+#how{padding:100px 5%;background:#fff;}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:1000px;margin:0 auto;}
+.step{text-align:center;padding:32px 20px;border-radius:20px;background:var(–pink-pale);position:relative;transition:transform .3s;}
+.step:hover{transform:translateY(-6px);}
+.step-num{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(–pink);color:#fff;width:28px;height:28px;border-radius:50%;font-size:.8rem;font-weight:900;display:flex;align-items:center;justify-content:center;}
+.step-icon{font-size:2.6rem;margin-bottom:12px;}
+.step h3{font-size:.9rem;font-weight:900;margin-bottom:6px;}
+.step p{font-size:.78rem;color:#7A5C4A;line-height:1.6;}
+
+/* GAME */
+#game{padding:100px 5%;background:linear-gradient(180deg,#FFF0F5 0%,#FFF8E7 100%);}
+.profile-setup{max-width:780px;margin:0 auto 48px;background:#fff;border-radius:20px;padding:28px 32px;box-shadow:0 8px 32px rgba(0,0,0,.08);}
+.profile-setup h3{font-size:1rem;font-weight:900;margin-bottom:18px;}
+.profile-row{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;}
+.pf-field{display:flex;flex-direction:column;gap:8px;flex:1;min-width:160px;}
+.pf-field label{font-size:.76rem;font-weight:700;color:#7A5C4A;}
+.pf-pills{display:flex;gap:8px;flex-wrap:wrap;}
+.pf-pill{border:2px solid #eee;border-radius:50px;padding:8px 14px;font-size:.8rem;font-weight:700;cursor:pointer;transition:all .2s;background:#fff;color:var(–text);font-family:inherit;}
+.pf-pill:hover{border-color:var(–pink-light);}
+.pf-pill.active{border-color:var(–pink);background:var(–pink-pale);color:var(–pink);}
+.pf-field input[type=number]{border:2px solid #eee;border-radius:12px;padding:9px 14px;font-size:.9rem;font-family:inherit;outline:none;width:100%;}
+.pf-field input:focus{border-color:var(–pink);}
+#profileSummary{margin-top:16px;font-size:.8rem;color:var(–pink);font-weight:700;min-height:20px;}
+
+.game-wrapper{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
+.game-picker h2{font-size:1.1rem;font-weight:900;margin-bottom:4px;}
+.game-picker .sub{font-size:.82rem;color:#7A5C4A;margin-bottom:18px;}
+.donut-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.donut-item{background:#fff;border-radius:16px;padding:14px 8px 10px;text-align:center;cursor:pointer;border:3px solid transparent;transition:all .25s;box-shadow:0 4px 12px rgba(0,0,0,.06);}
+.donut-item:hover{transform:translateY(-4px);border-color:var(–pink-light);}
+.donut-item.selected{border-color:var(–pink);background:var(–pink-pale);transform:translateY(-4px);box-shadow:0 8px 24px rgba(255,78,138,.2);}
+.donut-emoji{font-size:2.4rem;display:block;margin-bottom:6px;}
+.donut-name{font-size:.74rem;font-weight:700;margin-bottom:2px;}
+.donut-tags{font-size:.64rem;color:var(–pink);}
+.match-btn-wrap{margin-top:20px;text-align:center;}
+.match-panel{background:#fff;border-radius:24px;padding:28px 24px;box-shadow:0 20px 60px rgba(0,0,0,.1);min-height:460px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.match-panel.waiting{opacity:.75;}
+.placeholder-txt{font-size:.95rem;color:#B89A8A;text-align:center;}
+.placeholder-txt span{font-size:2.8rem;display:block;margin-bottom:14px;}
+.match-header{font-family:‘Pacifico’,cursive;font-size:1.8rem;color:var(–pink);text-align:center;margin-bottom:16px;animation:popIn .4s cubic-bezier(.34,1.56,.64,1);}
+@keyframes popIn{from{transform:scale(0)}to{transform:scale(1)}}
+.match-avatar{width:100%;border-radius:14px;background:linear-gradient(135deg,#FFE4EF,#FFF8E7);height:170px;display:flex;align-items:center;justify-content:center;font-size:4.5rem;margin-bottom:14px;border:3px solid var(–pink-light);}
+.match-name{font-size:1.2rem;font-weight:900;}
+.age-badge{background:var(–pink-pale);color:var(–pink);font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:50px;}
+.bracket-badge{font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:50px;}
+.bb-20{background:#E8F5FF;color:#4A90D9;}
+.bb-25{background:#FFF0F5;color:var(–pink);}
+.bb-30{background:#F0FFF4;color:#27AE60;}
+.bb-35{background:#FFF9E6;color:#E67E22;}
+.match-bio{font-size:.82rem;color:#5A4A3A;line-height:1.7;margin-bottom:14px;}
+.match-reason{background:var(–pink-pale);border-radius:12px;padding:12px 14px;font-size:.8rem;color:#7A5C4A;border-left:4px solid var(–pink);line-height:1.6;}
+.match-store-hint{margin-top:10px;background:#F0FFF4;border-radius:10px;padding:10px 12px;font-size:.76rem;color:#27AE60;font-weight:700;}
+.match-actions{display:flex;gap:12px;margin-top:16px;width:100%;}
+.match-actions button{flex:1;padding:12px;border-radius:50px;border:none;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit;}
+.btn-pass{background:#f5f5f5;color:#999;}
+.btn-pass:hover{background:#ebebeb;}
+.btn-connect{background:var(–pink);color:#fff;}
+.btn-connect:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(255,78,138,.4);}
+
+/* OFFLINE */
+#offline{padding:100px 5%;background:#fff;}
+.offline-intro{max-width:760px;margin:0 auto 60px;text-align:center;}
+.offline-intro p{font-size:1rem;color:#7A5C4A;line-height:1.8;}
+.offline-flow{max-width:900px;margin:0 auto 72px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;}
+.offline-flow::before{content:’’;position:absolute;top:44px;left:12%;right:12%;height:3px;background:linear-gradient(90deg,var(–pink-light),var(–pink));z-index:0;border-radius:99px;}
+.offline-step{text-align:center;position:relative;z-index:1;}
+.offline-circle{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,#FF4E8A,#FF8CB4);color:#fff;font-size:2rem;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 8px 24px rgba(255,78,138,.35);}
+.offline-step h3{font-size:.9rem;font-weight:900;margin-bottom:6px;}
+.offline-step p{font-size:.76rem;color:#7A5C4A;line-height:1.6;padding:0 8px;}
+.offline-cards{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+.offline-card{border-radius:22px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.08);background:#fff;transition:transform .3s;}
+.offline-card:hover{transform:translateY(-6px);}
+.oc-head{padding:28px 24px 20px;text-align:center;}
+.oc-icon{font-size:2.8rem;margin-bottom:12px;}
+.oc-badge{display:inline-block;font-size:.72rem;font-weight:700;padding:4px 12px;border-radius:50px;margin-bottom:10px;}
+.badge-pink{background:var(–pink-pale);color:var(–pink);}
+.badge-gold{background:#FFF8E6;color:#E67E22;}
+.badge-green{background:#F0FFF4;color:#27AE60;}
+.oc-head h3{font-size:1.05rem;font-weight:900;}
+.oc-body{padding:0 24px 24px;}
+.oc-body ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.oc-body li{display:flex;gap:10px;align-items:flex-start;font-size:.82rem;color:#5A4A3A;line-height:1.6;}
+.oc-body li::before{content:‘🍩’;flex-shrink:0;margin-top:1px;}
+.oc-divider{border:none;border-top:1px dashed #FFD6E7;margin:16px 0;}
+.oc-tip{font-size:.75rem;color:var(–pink);font-weight:700;padding:0 24px 20px;}
+.qr-banner{max-width:780px;margin:60px auto 0;background:linear-gradient(135deg,#FF4E8A,#FF8CB4);border-radius:24px;padding:36px 40px;display:flex;align-items:center;gap:40px;color:#fff;}
+.qr-box{width:100px;height:100px;background:#fff;border-radius:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:3.5rem;}
+.qr-text h3{font-size:1.3rem;font-weight:900;margin-bottom:8px;}
+.qr-text p{font-size:.88rem;opacity:.9;line-height:1.7;}
+.qr-code-hint{margin-top:12px;font-size:.78rem;background:rgba(255,255,255,.2);padding:6px 14px;border-radius:50px;display:inline-block;}
+
+/* STORIES */
+#stories{padding:100px 5%;background:linear-gradient(180deg,#FFF0F5,#fff);}
+.stories-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:960px;margin:0 auto;}
+.story-card{border-radius:20px;overflow:hidden;background:var(–pink-pale);transition:transform .3s;}
+.story-card:hover{transform:translateY(-6px);}
+.story-img{width:100%;height:160px;display:flex;align-items:center;justify-content:center;font-size:4.5rem;gap:8px;background:linear-gradient(135deg,#FFE4EF,#FFF8E7);}
+.story-body{padding:20px;}
+.story-match{font-size:.76rem;color:var(–pink);font-weight:700;margin-bottom:5px;}
+.story-title{font-size:.95rem;font-weight:900;margin-bottom:7px;}
+.story-text{font-size:.8rem;color:#7A5C4A;line-height:1.6;}
+
+/* CTA */
+#cta{padding:80px 5%;background:linear-gradient(135deg,#FF4E8A 0%,#FF8CB4 50%,#FFB347 100%);text-align:center;}
+#cta h2{font-size:clamp(1.8rem,3vw,2.6rem);font-weight:900;color:#fff;margin-bottom:12px;}
+#cta p{color:rgba(255,255,255,.85);font-size:1rem;margin-bottom:36px;}
+footer{background:var(–text);color:rgba(255,255,255,.6);text-align:center;padding:24px 5%;font-size:.78rem;}
+footer em{color:var(–pink);font-style:normal;}
+
+/* FLOATING */
+.hearts-bg{pointer-events:none;}
+.hearts-bg .heart{position:fixed;animation:rise 9s linear infinite;opacity:0;z-index:0;pointer-events:none;}
+@keyframes rise{0%{transform:translateY(110vh) rotate(0deg);opacity:0}10%{opacity:.5}90%{opacity:.2}100%{transform:translateY(-10vh) rotate(360deg);opacity:0}}
+
+/* OVERLAYS */
+.overlay{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);align-items:center;justify-content:center;}
+.overlay.active{display:flex;}
+.modal{background:#fff;border-radius:28px;width:92%;max-width:500px;padding:40px 36px;animation:slideUp .4s cubic-bezier(.34,1.56,.64,1);position:relative;max-height:90vh;overflow-y:auto;}
+@keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-close{position:absolute;top:16px;right:20px;background:none;border:none;font-size:1.4rem;cursor:pointer;color:#aaa;}
+.modal h2{font-size:1.4rem;font-weight:900;margin-bottom:6px;text-align:center;}
+.modal .modal-sub{font-size:.85rem;color:#7A5C4A;text-align:center;margin-bottom:28px;}
+.pm-field{margin-bottom:20px;}
+.pm-field label{display:block;font-size:.8rem;font-weight:700;color:#7A5C4A;margin-bottom:8px;}
+.pm-field input[type=number]{width:100%;border:2px solid #eee;border-radius:12px;padding:12px 16px;font-size:1rem;font-family:inherit;outline:none;}
+.pm-field input:focus{border-color:var(–pink);}
+.pm-pills{display:flex;gap:10px;flex-wrap:wrap;}
+.pm-pill{border:2px solid #eee;border-radius:50px;padding:10px 18px;font-size:.88rem;font-weight:700;cursor:pointer;transition:all .2s;background:#fff;font-family:inherit;}
+.pm-pill:hover{border-color:var(–pink-light);}
+.pm-pill.active{border-color:var(–pink);background:var(–pink-pale);color:var(–pink);}
+
+/* QUIZ inside modal */
+.qs-num{font-size:.78rem;color:var(–pink);font-weight:700;margin-bottom:16px;}
+.quiz-progress{height:6px;background:#eee;border-radius:99px;margin-bottom:24px;overflow:hidden;}
+.quiz-progress-bar{height:100%;background:var(–pink);border-radius:99px;transition:width .3s;}
+.quiz-q{font-size:1rem;font-weight:700;margin-bottom:20px;}
+.quiz-opts{display:flex;flex-direction:column;gap:10px;}
+.quiz-opt{background:var(–pink-pale);border:2px solid transparent;border-radius:14px;padding:12px 16px;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:left;font-family:inherit;}
+.quiz-opt:hover{border-color:var(–pink);background:#FFE4EF;}
+
+@media(max-width:768px){
+.hero-inner,.game-wrapper,.steps,.stories-grid,.offline-cards,.offline-flow{grid-template-columns:1fr;}
+.offline-flow::before{display:none;}
+.nav-links{display:none;}
+.qr-banner{flex-direction:column;text-align:center;gap:20px;}
+.profile-row{flex-direction:column;}
+}
+</style>
+
+</head>
+<body>
+
+<div class="hearts-bg" id="heartsContainer"></div>
+
+<!-- NAV -->
+
+<nav>
+  <div class="nav-logo"><span>🍩</span>甜甜圈配對</div>
+  <ul class="nav-links">
+    <li><a href="#how">玩法介紹</a></li>
+    <li><a href="#game">線上配對</a></li>
+    <li><a href="#offline">實體門市</a></li>
+    <li><a href="#stories">甜蜜故事</a></li>
+  </ul>
+  <button class="nav-cta" onclick="openProfile()">🍩 立即開始</button>
+</nav>
+
+<!-- HERO -->
+
+<section id="hero">
+  <div class="hcircle hc1"></div>
+  <div class="hcircle hc2"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-tag">✨ Mister Donut × Sweet Match 甜蜜聯名</div>
+      <h1 class="hero-h1">選<em>甜甜圈</em>，<br>就像選<em>對象</em><br>一樣重要。</h1>
+      <p class="hero-sub">你的口味，洩露了你的靈魂。<br>讓甜甜圈幫你找到命中注定的那個人——<br>線上測驗 ＋ 實體門市雙重體驗。</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="openProfile()">🍩 建立我的甜甜圈檔案</button>
+        <button class="btn-outline" onclick="document.getElementById('offline').scrollIntoView({behavior:'smooth'})">🏪 看實體玩法</button>
+      </div>
+    </div>
+    <div class="card-stack">
+      <div class="tinder-card">
+        <div class="card-donut-img">🍩</div>
+        <div class="card-info"><h3>焦糖海鹽波堤</h3><p>成熟穩重，內藏驚喜。</p><div class="card-tags"><span class="card-tag">#成熟</span><span class="card-tag">#可靠</span></div></div>
+      </div>
+      <div class="tinder-card">
+        <div class="card-donut-img">🟤</div>
+        <div class="card-info"><h3>雙層巧克力</h3></div>
+      </div>
+      <div class="tinder-card">
+        <div class="card-donut-img" style="font-size:5.5rem">🌸</div>
+        <div class="card-info">
+          <h3>草莓波堤</h3>
+          <p>甜美可愛，讓人忍不住想靠近。</p>
+          <div class="card-tags"><span class="card-tag">#浪漫</span><span class="card-tag">#甜蜜</span></div>
+          <div class="card-actions">
+            <div class="card-btn nope">✕</div>
+            <div class="card-btn like">♥</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+
+<section id="how">
+  <h2 class="section-title">如何透過甜甜圈找到<em>命中注定</em>？</h2>
+  <p class="section-sub">線上 ＋ 線下雙玩法，讓你的甜甜圈幫你說話 🍩</p>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-icon">👤</div><h3>建立配對檔案</h3><p>填入年齡、性別與配對偏好，打造你的甜甜圈人格卡。</p></div>
+    <div class="step"><div class="step-num">2</div><div class="step-icon">📝</div><h3>口味人格測驗</h3><p>5 題趣味選擇，解鎖你的甜甜圈人格標籤與門市活動徽章。</p></div>
+    <div class="step"><div class="step-num">3</div><div class="step-icon">💘</div><h3>線上智能配對</h3><p>根據口味、年齡與偏好，推薦最速配的理想對象。</p></div>
+    <div class="step"><div class="step-num">4</div><div class="step-icon">🏪</div><h3>實體門市相遇</h3><p>帶著配對徽章去門市，參加限定活動，真實相遇！</p></div>
+  </div>
+</section>
+
+<!-- GAME -->
+
+<section id="game">
+  <h2 class="section-title">🍩 線上配對系統</h2>
+  <p class="section-sub">選擇你的口味，找到你的命定 Match！</p>
+
+  <div class="profile-setup">
+    <h3>📋 你的甜甜圈配對檔案</h3>
+    <div class="profile-row">
+      <div class="pf-field">
+        <label>我的性別</label>
+        <div class="pf-pills" id="genderPills">
+          <button class="pf-pill" onclick="setPill('genderPills',this,'gender','男生')">👨 男生</button>
+          <button class="pf-pill" onclick="setPill('genderPills',this,'gender','女生')">👩 女生</button>
+          <button class="pf-pill" onclick="setPill('genderPills',this,'gender','非二元')">🌈 非二元</button>
+          <button class="pf-pill" onclick="setPill('genderPills',this,'gender','不公開')">🤫 不公開</button>
+        </div>
+      </div>
+      <div class="pf-field" style="max-width:120px">
+        <label>我的年齡</label>
+        <input type="number" id="ageInput" min="18" max="60" placeholder="18–60 歲" oninput="setAge()">
+      </div>
+      <div class="pf-field">
+        <label>我想認識</label>
+        <div class="pf-pills" id="seekPills">
+          <button class="pf-pill" onclick="setPill('seekPills',this,'seek','男生')">👨 男生</button>
+          <button class="pf-pill" onclick="setPill('seekPills',this,'seek','女生')">👩 女生</button>
+          <button class="pf-pill" onclick="setPill('seekPills',this,'seek','不設限')">💫 不設限</button>
+        </div>
+      </div>
+    </div>
+    <div id="profileSummary"></div>
+  </div>
+
+  <div class="game-wrapper">
+    <div class="game-picker">
+      <h2>STEP 1｜你是哪種甜甜圈？</h2>
+      <p class="sub">選一個最能代表你的口味 👇</p>
+      <div class="donut-grid" id="donutGrid"></div>
+      <div class="match-btn-wrap">
+        <button class="btn-primary" id="matchBtn" onclick="doMatch()" style="opacity:.4;pointer-events:none">💘 看看我的 Match！</button>
+      </div>
+    </div>
+    <div class="match-panel waiting" id="matchPanel">
+      <div class="placeholder-txt"><span>💌</span>先選一個甜甜圈口味，<br>你的命定 Match 就在等你！</div>
+    </div>
+  </div>
+</section>
+
+<!-- OFFLINE -->
+
+<section id="offline">
+  <h2 class="section-title">🏪 實體門市<em>線下玩法</em></h2>
+  <p class="section-sub">買甜甜圈的同時，一起參加這場甜蜜的緣份活動！</p>
+
+  <div class="offline-intro">
+    <p>全台 Mister Donut 門市都是這場甜蜜配對的舞台。<br>當你走進門市，不只是買一顆甜甜圈——<br>你可能正在遇見你的命中注定。</p>
+  </div>
+
+  <div class="offline-flow">
+    <div class="offline-step">
+      <div class="offline-circle">📱</div>
+      <h3>① 掃碼登記</h3>
+      <p>進門市掃 QR Code，完成線上配對檔案，取得你的口味類型。</p>
+    </div>
+    <div class="offline-step">
+      <div class="offline-circle">🍩</div>
+      <h3>② 選你的甜甜圈</h3>
+      <p>購買甜甜圈時，告知店員你的「人格口味」。</p>
+    </div>
+    <div class="offline-step">
+      <div class="offline-circle">🏷️</div>
+      <h3>③ 取得配對徽章</h3>
+      <p>店員附上專屬配對貼紙，貼在你的包裝或衣服上。</p>
+    </div>
+    <div class="offline-step">
+      <div class="offline-circle">💘</div>
+      <h3>④ 相遇時刻</h3>
+      <p>看到同款或互補徽章的人，就是命定相遇的機會！</p>
+    </div>
+  </div>
+
+  <div class="offline-cards">
+    <div class="offline-card">
+      <div class="oc-head" style="background:linear-gradient(135deg,#FFF0F5,#FFE4EF)">
+        <div class="oc-icon">🏷️</div>
+        <div class="oc-badge badge-pink">消費即可參加・免費</div>
+        <h3>甜甜圈配對徽章</h3>
+      </div>
+      <div class="oc-body">
+        <ul>
+          <li>購買任一甜甜圈，告知店員你的口味類型，即獲得對應限定徽章貼紙。</li>
+          <li>徽章貼在餐盒或衣服上，讓其他參加者一眼看出你的「口味人格」。</li>
+          <li>共 6 種口味徽章，互補口味組合代表最高配對指數！</li>
+          <li>草莓 × 抹茶、巧克力 × 檸檬，是本季最速配組合。</li>
+        </ul>
+        <hr class="oc-divider">
+        <p class="oc-tip">💡 看到和你相反口味的徽章，主動打個招呼吧！</p>
+      </div>
+    </div>
+
+```
+<div class="offline-card">
+  <div class="oc-head" style="background:linear-gradient(135deg,#FFF8E6,#FFE8C0)">
+    <div class="oc-icon">📅</div>
+    <div class="oc-badge badge-gold">每週六 14:00–18:00 限定</div>
+    <h3>甜甜圈速配日</h3>
+  </div>
+  <div class="oc-body">
+    <ul>
+      <li>每週六特定門市舉辦「速配日」，憑徽章入座，系統安排互補口味陌生人同桌。</li>
+      <li>每桌 30 分鐘，店員提供破冰問題卡，讓對話自然展開。</li>
+      <li>活動結束後可掃碼互加，在 App 繼續聊天或約下次甜甜圈日。</li>
+      <li>單身、找新朋友、或純粹想吃甜甜圈都歡迎參加！</li>
+    </ul>
+    <hr class="oc-divider">
+    <p class="oc-tip">💡 場地有限，建議提前線上預約席位！</p>
+  </div>
+</div>
+
+<div class="offline-card">
+  <div class="oc-head" style="background:linear-gradient(135deg,#F0FFF4,#C8F5D8)">
+    <div class="oc-icon">🎁</div>
+    <div class="oc-badge badge-green">配對成功限定禮遇</div>
+    <h3>甜蜜配對獎勵</h3>
+  </div>
+  <div class="oc-body">
+    <ul>
+      <li>雙方互掃 QR Code 確認「配對成功」，各獲第二顆甜甜圈 5 折優惠。</li>
+      <li>合拍打卡照，上傳標記 #甜甜圈配對，參加月底大抽獎。</li>
+      <li>獎品：情侶甜甜圈禮盒、雙人下午茶券、聯名限定周邊。</li>
+      <li>累計打卡 3 次升級「甜甜圈達人」，享全年 9 折優惠！</li>
+    </ul>
+    <hr class="oc-divider">
+    <p class="oc-tip">💡 交到新朋友也算配對成功，友情同樣珍貴！</p>
+  </div>
+</div>
+```
+
+  </div>
+
+  <div class="qr-banner">
+    <div class="qr-box">📲</div>
+    <div class="qr-text">
+      <h3>進門市，掃碼就能參加！</h3>
+      <p>全台所有 Mister Donut 門市均設有活動 QR Code。<br>完成線上配對檔案後，即可連結實體活動，<br>隨時查看附近有誰帶著同款徽章出現！</p>
+      <span class="qr-code-hint">📍 點我查詢最近的活動門市 →</span>
+    </div>
+  </div>
+</section>
+
+<!-- STORIES -->
+
+<section id="stories">
+  <h2 class="section-title">配對成功的<em>甜蜜故事</em> 💕</h2>
+  <p class="section-sub">來自真實用戶的甜甜圈緣份故事</p>
+  <div class="stories-grid">
+    <div class="story-card">
+      <div class="story-img">🌸 ❤️ 🧑</div>
+      <div class="story-body">
+        <div class="story-match">草莓波堤 ❤️ 宇辰，28歲</div>
+        <div class="story-title">「在門市速配日相遇」</div>
+        <p class="story-text">第一次去參加速配日，我的草莓徽章遇上他的抹茶。30分鐘後，我們決定再喝一杯飲料繼續聊。現在已經一起去吃甜甜圈超過百次了！</p>
+      </div>
+    </div>
+    <div class="story-card">
+      <div class="story-img">🟤 ❤️ 👩</div>
+      <div class="story-body">
+        <div class="story-match">雙層巧克力 ❤️ 柏翰，26歲</div>
+        <div class="story-title">「一顆甜甜圈開啟一段緣份」</div>
+        <p class="story-text">我拿著配對卡在等結帳，他排在我後面，看到我的巧克力徽章說：「我也是！」後來發現住同一個捷運站，這大概就是命中注定吧。</p>
+      </div>
+    </div>
+    <div class="story-card">
+      <div class="story-img">🍋 ❤️ 💃</div>
+      <div class="story-body">
+        <div class="story-match">檸檬優格 ❤️ Emma，24歲</div>
+        <div class="story-title">「從線上測驗到實體相遇」</div>
+        <p class="story-text">先在線上做了配對測驗，發現彼此都是「清新系」。相約在活動門市見面，第一眼看到對方的檸檬徽章，就知道這個人不一樣！</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+
+<section id="cta">
+  <h2>準備好遇見你的命定 Match 了嗎？ 🍩</h2>
+  <p>建立配對檔案，再去門市找到你的甜甜圈靈魂伴侶。</p>
+  <button class="btn-white" onclick="openProfile()">🍩 建立我的配對檔案</button>
+</section>
+
+<footer>
+  <p>© 2025 <em>Mister Donut × Sweet Match</em> 甜蜜聯名企劃｜愛是甜甜的。</p>
+</footer>
+
+<!-- PROFILE OVERLAY -->
+
+<div class="overlay" id="profile-overlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeProfile()">✕</button>
+    <h2>🍩 建立你的配對檔案</h2>
+    <p class="modal-sub">設定完成後，開始測驗並找到你的 Match！</p>
+    <div class="pm-field">
+      <label>我的性別</label>
+      <div class="pm-pills" id="pm-gender">
+        <button class="pm-pill" data-val="男生" onclick="pmPick('pm-gender',this)">👨 男生</button>
+        <button class="pm-pill" data-val="女生" onclick="pmPick('pm-gender',this)">👩 女生</button>
+        <button class="pm-pill" data-val="非二元" onclick="pmPick('pm-gender',this)">🌈 非二元</button>
+        <button class="pm-pill" data-val="不公開" onclick="pmPick('pm-gender',this)">🤫 不公開</button>
+      </div>
+    </div>
+    <div class="pm-field">
+      <label>我的年齡</label>
+      <input type="number" id="pm-age" min="18" max="60" placeholder="請輸入年齡（18–60 歲）">
+    </div>
+    <div class="pm-field">
+      <label>我想認識</label>
+      <div class="pm-pills" id="pm-seek">
+        <button class="pm-pill" data-val="男生" onclick="pmPick('pm-seek',this)">👨 男生</button>
+        <button class="pm-pill" data-val="女生" onclick="pmPick('pm-seek',this)">👩 女生</button>
+        <button class="pm-pill" data-val="不設限" onclick="pmPick('pm-seek',this)">💫 不設限</button>
+      </div>
+    </div>
+    <button class="btn-primary" style="width:100%;justify-content:center;margin-top:8px" onclick="saveProfile()">✨ 開始口味測驗！</button>
+  </div>
+</div>
+
+<!-- QUIZ OVERLAY -->
+
+<div class="overlay" id="quiz-overlay">
+  <div class="modal" id="quizModal">
+    <button class="modal-close" onclick="closeQuiz()">✕</button>
+    <h2>🍩 甜甜圈人格測驗</h2>
+    <div class="qs-num" id="qsNum">第 1 題 / 共 5 題</div>
+    <div class="quiz-progress"><div class="quiz-progress-bar" id="qBar" style="width:20%"></div></div>
+    <div class="quiz-q" id="qText"></div>
+    <div class="quiz-opts" id="qOpts"></div>
+  </div>
+</div>
+
+<script>
+const donuts=[
+  {id:'strawberry',emoji:'🌸',name:'草莓波堤',tags:'#甜美可愛 #浪漫',personality:'浪漫甜心',desc:'你外表甜美可人，心思細膩，喜歡被珍視，是讓人想好好守護的類型。'},
+  {id:'chocolate',emoji:'🟤',name:'雙層巧克力',tags:'#熱情魅力 #外向',personality:'熱情魅惑',desc:'你充滿熱情與活力，個性外向，魅力無法擋，讓周圍的人都被你吸引。'},
+  {id:'lemon',emoji:'🍋',name:'檸檬優格',tags:'#清新脫俗 #活潑',personality:'清新少女',desc:'你陽光開朗，帶著獨特清新感，喜歡新鮮事物，讓人如沐春風。'},
+  {id:'matcha',emoji:'🍵',name:'抹茶紅豆',tags:'#溫柔內斂 #文青',personality:'文藝氣質',desc:'你氣質沉穩有深度，懂得欣賞生活的美，是讓人越了解越著迷的類型。'},
+  {id:'caramel',emoji:'🍮',name:'焦糖海鹽波堤',tags:'#成熟穩重 #可靠',personality:'可靠大人',desc:'你成熟穩重，外剛內柔，讓人覺得有安全感，是最佳人生伴侶的選擇。'},
+  {id:'cocoa',emoji:'🍫',name:'法式可可圈',tags:'#獨立自主 #有想法',personality:'神秘質感',desc:'你個性獨立有主見，充滿神秘感，讓人想一探究竟，越了解越有魅力。'},
+];
+
+const matchPool={
+  strawberry:{
+    男生:[{emoji:'🧑',name:'宇辰',age:28,tags:['#旅遊控','#音樂人','#喜歡狗狗'],bio:'喜歡簡單的生活，享受每個小確幸，期待找一個願意分享日常的人。',reason:'草莓波堤的甜美浪漫，完美呼應了宇辰渴望被珍惜的內心。你們都相信最好的約會就是一起吃甜點！'},
+           {emoji:'🧔',name:'靖翔',age:32,tags:['#登山控','#廚師','#暖男'],bio:'喜歡在廚房做料理，也喜歡征服山頂。相信生活就是要用心對待每一刻。',reason:'草莓的甜與靖翔的踏實剛好互補，你溫柔他可靠，這組合注定甜蜜！'}],
+    女生:[{emoji:'👩',name:'曉涵',age:25,tags:['#插畫家','#貓咪控','#早起人'],bio:'用插畫記錄生活的美好瞬間，相信每天都值得被好好對待。',reason:'草莓波堤的細膩浪漫，和曉涵溫柔的藝術氣質一拍即合。'}],
+    不設限:[{emoji:'🌟',name:'子悠',age:27,tags:['#攝影師','#瑜伽控','#素食者'],bio:'用鏡頭看世界，相信每個人都有屬於自己的光芒。',reason:'草莓的浪漫色彩，遇上子悠的自由靈魂，注定是一段有故事的相遇。'}],
+  },
+  chocolate:{
+    男生:[{emoji:'🧑‍🎤',name:'柏翰',age:26,tags:['#健身控','#爵士樂迷','#美食家'],bio:'熱愛生活每一刻，相信人生就是要全力以赴、勇敢去愛。',reason:'雙層巧克力的濃烈熱情，和柏翰外向愛冒險的性格完美 Match！你們在一起，生活一定精彩無比。'}],
+    女生:[{emoji:'👩‍🎨',name:'安琪',age:27,tags:['#藝術家','#夜貓子','#品酒師'],bio:'不喜歡一成不變，總是在尋找新的可能性。相信有故事的人最有魅力。',reason:'巧克力的濃烈個性，和安琪的神秘藝術感碰在一起，擦出的火花一定驚人！'}],
+    不設限:[{emoji:'🎵',name:'品睿',age:29,tags:['#DJ','#夜生活','#環遊世界中'],bio:'音樂是第一語言，旅行是生活方式。期待遇到一個願意跳進未知的人。',reason:'你的熱情，遇上品睿的自由奔放，這組合不熱烈才奇怪！'}],
+  },
+  lemon:{
+    男生:[{emoji:'🧑‍💼',name:'建宇',age:24,tags:['#新創人','#衝浪控','#早鳥'],bio:'相信每天都是全新的機會，喜歡和充滿能量的人一起前進。',reason:'檸檬的清新活力，和建宇積極向上的態度完美共鳴，你們都是讓周圍充滿光的人！'}],
+    女生:[{emoji:'💃',name:'Emma',age:24,tags:['#旅行控','#攝影師','#貓咪媽媽'],bio:'世界很大，想一起探索。記錄每個值得被記住的瞬間。',reason:'檸檬優格的清新活潑，和 Emma 的陽光個性一拍即合，你們都是讓生活充滿色彩的人！'}],
+    不設限:[{emoji:'🌊',name:'海恩',age:26,tags:['#衝浪手','#環保倡議','#素食廚師'],bio:'喜歡大海和山，相信地球就是我們最好的家。',reason:'清新的你遇上自然系的海恩，感覺連空氣都會變得更乾淨！'}],
+  },
+  matcha:{
+    男生:[{emoji:'🧑‍💻',name:'子墨',age:29,tags:['#閱讀控','#設計師','#咖啡愛好者'],bio:'慢慢來，相信每段關係都需要被好好雕琢。喜歡一起看書的下午時光。',reason:'抹茶紅豆的沉穩內斂，和子墨的文藝氣質互相輝映，你們都懂得欣賞生活的細節之美。'}],
+    女生:[{emoji:'👩‍🏫',name:'雅文',age:30,tags:['#文學控','#古典樂迷','#老靈魂'],bio:'相信緩慢的生活才是最大的奢侈。喜歡在書裡旅行，也喜歡真實的散步。',reason:'抹茶的沉穩遇上雅文的書香氣息，這段相遇慢慢來，卻最持久。'}],
+    不設限:[{emoji:'🎋',name:'若竹',age:28,tags:['#茶道師','#手作控','#冥想者'],bio:'相信慢即是快。用雙手做出的東西，才有溫度。',reason:'你的文青氣質，和若竹的禪意生活，感覺就像下雨天的茶香，舒服又剛好。'}],
+  },
+  caramel:{
+    男生:[{emoji:'👨‍⚕️',name:'志遠',age:31,tags:['#登山控','#廚藝達人','#暖男'],bio:'喜歡照顧身邊的人。相信家是最溫暖的地方，想一起打造屬於我們的小窩。',reason:'焦糖海鹽的可靠穩重，和志遠的暖男特質堪稱絕配，你們都是讓人安心依靠的存在！'}],
+    女生:[{emoji:'👩‍💼',name:'思妤',age:33,tags:['#創業家','#瑜伽老師','#獨立女性'],bio:'相信每一段關係都是一場修行。享受當下，也期待遠方。',reason:'你的可靠穩重，和思妤的成熟獨立完美互補，這段緣份甜中帶著海鹽的深度。'}],
+    不設限:[{emoji:'🏔️',name:'岳恆',age:35,tags:['#登山嚮導','#獨立電影迷','#廚師'],bio:'山是我的信仰，廚房是我的道場。相信真實比完美更動人。',reason:'你的踏實，遇上岳恆的深沉，是那種不用多說就懂彼此的相遇。'}],
+  },
+  cocoa:{
+    男生:[{emoji:'🎨',name:'奕霖',age:27,tags:['#建築師','#品酒師','#黑膠迷'],bio:'相信美感是一種選擇。生活可以是一件藝術品。',reason:'可可圈的神秘質感，和奕霖的獨特審美互相吸引，你們的相遇注定擦出不一樣的火花！'}],
+    女生:[{emoji:'👩‍🔬',name:'珂研',age:28,tags:['#科學家','#馬拉松跑者','#電影控'],bio:'對世界充滿好奇，相信每一個問題背後都有更有趣的答案。',reason:'你的神秘獨立，和珂研的理性深度是意外的絕配，因為你們都不喜歡表面。'}],
+    不設限:[{emoji:'🌙',name:'夜葉',age:26,tags:['#刺青師','#詩人','#夜行動物'],bio:'活在黑暗裡才看得到星星。不完美，才是最真實的美麗。',reason:'你的個性，遇上夜葉的詩意，這段緣份有點苦、有點甜，像法式可可圈一樣剛剛好。'}],
+  },
+};
+
+const questions=[
+  {q:'週末你最想做什麼？',opts:['在家看電影 🎬','出去探索新地方 🗺️','和朋友聚會 🎉','一個人靜靜喝咖啡 ☕']},
+  {q:'你的理想約會是？',opts:['浪漫燭光晚餐 🕯️','去新開的甜點店 🍰','戶外踏青野餐 🧺','看展覽或音樂會 🎵']},
+  {q:'朋友眼中，你是哪種人？',opts:['溫柔貼心的那個 💕','活躍熱情的那個 🔥','有趣有創意的那個 ✨','穩重可靠的那個 🌳']},
+  {q:'你選甜甜圈的標準是？',opts:['顏色漂不漂亮 🌸','口味有沒有驚喜 💥','經典好吃最重要 😋','限定款一定要試 🌟']},
+  {q:'你的愛情觀最接近哪種？',opts:['相信命中注定 ⭐','慢慢培養感情 🌱','勇敢追求心動感 💘','輕鬆自然最好 🌈']},
+];
+const quizMap=['strawberry','chocolate','lemon','matcha','caramel','cocoa'];
+
+let userProfile={gender:null,age:null,seek:null};
+let selectedDonut=null;
+let currentQ=0,quizAnswers=[];
+
+// ── PROFILE MODAL ──
+function openProfile(){document.getElementById('profile-overlay').classList.add('active');}
+function closeProfile(){document.getElementById('profile-overlay').classList.remove('active');}
+function pmPick(groupId,btn){
+  document.querySelectorAll('#'+groupId+' .pm-pill').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function saveProfile(){
+  const gBtn=document.querySelector('#pm-gender .pm-pill.active');
+  const sBtn=document.querySelector('#pm-seek .pm-pill.active');
+  const age=parseInt(document.getElementById('pm-age').value);
+  if(!gBtn){alert('請選擇你的性別 😊');return;}
+  if(!age||age<18||age>60){alert('請輸入正確的年齡（18–60歲）😊');return;}
+  if(!sBtn){alert('請選擇你想配對的對象 😊');return;}
+  userProfile.gender=gBtn.dataset.val;
+  userProfile.age=age;
+  userProfile.seek=sBtn.dataset.val;
+  // sync to inline bar
+  syncToBar();
+  closeProfile();
+  openQuiz();
+}
+function syncToBar(){
+  const {gender,age,seek}=userProfile;
+  if(!gender)return;
+  const ab=age<25?'20–24歲':age<30?'25–29歲':age<35?'30–34歲':'35歲以上';
+  document.getElementById('profileSummary').innerHTML=
+    `✅ 已設定：${gender}・${age}歲（${ab}）・尋找 ${seek}`;
+  // sync pills in bar
+  document.querySelectorAll('#genderPills .pf-pill').forEach(b=>{b.classList.toggle('active',b.textContent.includes(gender));});
+  document.querySelectorAll('#seekPills .pf-pill').forEach(b=>{b.classList.toggle('active',b.textContent.includes(seek));});
+  if(document.getElementById('ageInput'))document.getElementById('ageInput').value=age;
+}
+
+// ── INLINE BAR PILLS ──
+function setPill(groupId,btn,key,val){
+  document.querySelectorAll('#'+groupId+' .pf-pill').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  userProfile[key]=val;
+  refreshSummary();
+}
+function setAge(){
+  userProfile.age=parseInt(document.getElementById('ageInput').value)||null;
+  refreshSummary();
+}
+function refreshSummary(){
+  const {gender,age,seek}=userProfile;
+  if(!gender||!age||!seek){document.getElementById('profileSummary').innerHTML='';return;}
+  const ab=age<25?'20–24歲':age<30?'25–29歲':age<35?'30–34歲':'35歲以上';
+  document.getElementById('profileSummary').innerHTML=`✅ 已設定：${gender}・${age}歲（${ab}）・尋找 ${seek}`;
+}
+
+// ── QUIZ ──
+function openQuiz(){
+  currentQ=0;quizAnswers=[];
+  document.getElementById('quiz-overlay').classList.add('active');
+  resetQuizModal();renderQ();
+}
+function closeQuiz(){document.getElementById('quiz-overlay').classList.remove('active');}
+function resetQuizModal(){
+  document.getElementById('quizModal').innerHTML=`
+    <button class="modal-close" onclick="closeQuiz()">✕</button>
+    <h2>🍩 甜甜圈人格測驗</h2>
+    <div class="qs-num" id="qsNum">第 1 題 / 共 5 題</div>
+    <div class="quiz-progress"><div class="quiz-progress-bar" id="qBar" style="width:20%"></div></div>
+    <div class="quiz-q" id="qText"></div>
+    <div class="quiz-opts" id="qOpts"></div>`;
+}
+function renderQ(){
+  const q=questions[currentQ];
+  document.getElementById('qsNum').textContent=`第 ${currentQ+1} 題 / 共 ${questions.length} 題`;
+  document.getElementById('qBar').style.width=`${((currentQ+1)/questions.length)*100}%`;
+  document.getElementById('qText').textContent=q.q;
+  const el=document.getElementById('qOpts');el.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const b=document.createElement('button');b.className='quiz-opt';b.textContent=o;
+    b.onclick=()=>answerQ(i);el.appendChild(b);
+  });
+}
+function answerQ(i){
+  quizAnswers.push(i);currentQ++;
+  if(currentQ<questions.length){renderQ();}else{showQuizResult();}
+}
+function showQuizResult(){
+  const score=quizAnswers.reduce((a,b)=>a+b,0)%quizMap.length;
+  const donut=donuts.find(d=>d.id===quizMap[score]);
+  document.getElementById('quizModal').innerHTML=`
+    <button class="modal-close" onclick="closeQuiz()">✕</button>
+    <h2 style="margin-bottom:8px">✨ 你的甜甜圈人格</h2>
+    <div style="font-size:4rem;margin:16px 0">${donut.emoji}</div>
+    <div style="font-size:1.2rem;font-weight:900;color:var(--pink);margin-bottom:4px">${donut.name}</div>
+    <div style="font-size:.95rem;font-weight:700;margin-bottom:12px">${donut.personality}</div>
+    <p style="font-size:.85rem;color:#7A5C4A;line-height:1.7;margin-bottom:8px">${donut.desc}</p>
+    <p style="font-size:.78rem;color:#B89A8A;margin-bottom:20px">🏷️ 你的門市徽章口味：<strong style="color:var(--pink)">${donut.name}</strong></p>
+    <button class="btn-primary" style="margin:0 auto;display:flex" onclick="closeQuiz();selectDonut('${donut.id}');document.getElementById('game').scrollIntoView({behavior:'smooth'})">
+      💘 看看我的配對結果！
+    </button>`;
+}
+
+// ── DONUT GRID ──
+function buildGrid(){
+  const grid=document.getElementById('donutGrid');
+  donuts.forEach(d=>{
+    const el=document.createElement('div');el.className='donut-item';el.id='di-'+d.id;
+    el.innerHTML=`<span class="donut-emoji">${d.emoji}</span><div class="donut-name">${d.name}</div><div class="donut-tags">${d.tags}</div>`;
+    el.onclick=()=>selectDonut(d.id);grid.appendChild(el);
+  });
+}
+function selectDonut(id){
+  selectedDonut=id;
+  document.querySelectorAll('.donut-item').forEach(e=>e.classList.remove('selected'));
+  const el=document.getElementById('di-'+id);if(el)el.classList.add('selected');
+  const btn=document.getElementById('matchBtn');btn.style.opacity='1';btn.style.pointerEvents='auto';
+}
+function doMatch(){
+  if(!selectedDonut)return;
+  const pool=matchPool[selectedDonut];
+  const seek=userProfile.seek||'不設限';
+  const candidates=pool[seek]||pool['不設限']||pool['男生'];
+  const m=candidates[Math.floor(Math.random()*candidates.length)];
+  const d=donuts.find(x=>x.id===selectedDonut);
+  const age=userProfile.age;
+  const bb=!age?'':age<25?'<span class="bracket-badge bb-20">20–24歲</span>':age<30?'<span class="bracket-badge bb-25">25–29歲</span>':age<35?'<span class="bracket-badge bb-30">30–34歲</span>':'<span class="bracket-badge bb-35">35+歲</span>';
+  const panel=document.getElementById('matchPanel');
+  panel.classList.remove('waiting');
+  panel.innerHTML=`
+    <div style="width:100%">
+      <div class="match-header">It's a Match! 💘</div>
+      <div class="match-avatar">${m.emoji}</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap">
+        <span class="match-name">${m.name}</span>
+        <span class="age-badge">${m.age} 歲</span>${bb}
+      </div>
+      <div class="card-tags" style="margin:8px 0 12px">${m.tags.map(t=>`<span class="card-tag">${t}</span>`).join('')}</div>
+      <p class="match-bio">${m.bio}</p>
+      <div class="match-reason">🍩 <strong>為什麼你們 Match？</strong><br>${m.reason}</div>
+      <div class="match-store-hint">🏪 帶著你的【${d.name}】徽章去門市，說不定能真實相遇！</div>
+      <div class="match-actions">
+        <button class="btn-pass" onclick="resetMatch()">換一個試試</button>
+        <button class="btn-connect" onclick="alert('送出邀請成功！💌 等待對方接受吧～\\n\\n記得帶著你的甜甜圈徽章去門市哦！')">💌 送出邀請</button>
+      </div>
+    </div>`;
+}
+function resetMatch(){
+  selectedDonut=null;
+  document.querySelectorAll('.donut-item').forEach(e=>e.classList.remove('selected'));
+  const btn=document.getElementById('matchBtn');btn.style.opacity='.4';btn.style.pointerEvents='none';
+  const panel=document.getElementById('matchPanel');panel.classList.add('waiting');
+  panel.innerHTML=`<div class="placeholder-txt"><span>💌</span>先選一個甜甜圈口味，<br>你的命定 Match 就在等你！</div>`;
+}
+
+// ── FLOATING ──
+function spawnHeart(){
+  const c=document.getElementById('heartsContainer');
+  const h=document.createElement('div');h.className='heart';
+  h.textContent=['💕','🍩','✨','💘','🌸'][Math.floor(Math.random()*5)];
+  h.style.left=Math.random()*100+'vw';
+  h.style.animationDuration=(7+Math.random()*6)+'s';
+  h.style.animationDelay=Math.random()*4+'s';
+  h.style.fontSize=(.7+Math.random()*.9)+'rem';
+  c.appendChild(h);setTimeout(()=>h.remove(),13000);
+}
+setInterval(spawnHeart,2000);
+buildGrid();
+</script>
+
+</body>
+</html>
